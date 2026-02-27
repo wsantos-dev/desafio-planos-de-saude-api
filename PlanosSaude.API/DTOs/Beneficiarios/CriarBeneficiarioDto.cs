@@ -1,7 +1,7 @@
 
 namespace PlanosSaude.API.DTOs;
 
-public record CriaBeneficiarioDto(
+public record CriarBeneficiarioDto(
     string Nome,
     string Cpf,
     DateOnly DataNascimento,

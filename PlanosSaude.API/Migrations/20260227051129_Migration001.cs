@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PlanosSaude.API.Migrations
 {
     /// <inheritdoc />
-    public partial class Migracao001 : Migration
+    public partial class Migration001 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -4,7 +4,7 @@ using PlanosSaude.API.DTOs;
 
 namespace PlanosSaude.API.Validators;
 
-public class CriaBeneficiarioValidator : AbstractValidator<CriaBeneficiarioDto>
+public class CriaBeneficiarioValidator : AbstractValidator<CriarBeneficiarioDto>
 {
 
     public CriaBeneficiarioValidator()

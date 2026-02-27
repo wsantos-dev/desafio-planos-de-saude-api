@@ -23,6 +23,10 @@ public class BeneficiarioConfiguration : IEntityTypeConfiguration<Beneficiario>
         builder.HasIndex(b => b.Cpf)
             .IsUnique();
 
+        builder.Property(b => b.DataNascimento)
+            .IsRequired()
+            .HasColumnType("date");
+
         builder.Property(b => b.Email)
             .IsRequired()
             .HasMaxLength(150);

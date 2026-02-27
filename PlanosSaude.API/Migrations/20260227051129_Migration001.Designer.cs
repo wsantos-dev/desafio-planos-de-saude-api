@@ -12,8 +12,8 @@ using PlanosSaude.API.Data;
 namespace PlanosSaude.API.Migrations
 {
     [DbContext(typeof(PlanosSaudeDbContext))]
-    [Migration("20260227035222_Migracao001")]
-    partial class Migracao001
+    [Migration("20260227051129_Migration001")]
+    partial class Migration001
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
