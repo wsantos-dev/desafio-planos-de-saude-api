@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using PlanosSaude.API.Errors;
+using PlanosSaude.API.Errors.Exceptions;
 
 namespace PlanosSaude.API.Middlewares
 {
@@ -19,21 +20,46 @@ namespace PlanosSaude.API.Middlewares
             {
                 await _next(context);
             }
+            catch (BaseException ex)
+            {
+                await HandleCustomException(context, ex);
+            }
             catch (Exception ex)
             {
-                context.Response.ContentType = "application/json";
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-                var error = new ErrorResponse(
-                    "Erro interno no servidor.",
-                    ex.Message,
-                    DateTimeOffset.UtcNow
-                );
-
-                var json = JsonSerializer.Serialize(error);
-
-                await context.Response.WriteAsync(json);
+                await HandleGenericException(context, ex);
             }
+        }
+
+        private static async Task HandleGenericException(
+            HttpContext context,
+            Exception ex)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+            var error = new ErrorResponse(
+                "Erro interno no servidor.",
+                ex.Message,
+                DateTime.UtcNow
+            );
+
+            await context.Response.WriteAsync(JsonSerializer.Serialize(error));
+        }
+
+        private static async Task HandleCustomException(
+            HttpContext context,
+            BaseException ex)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = ex.StatusCode;
+
+            var error = new ErrorResponse(
+                ex.Message,
+                null,
+                DateTime.UtcNow
+            );
+
+            await context.Response.WriteAsync(JsonSerializer.Serialize(error));
         }
     }
 }

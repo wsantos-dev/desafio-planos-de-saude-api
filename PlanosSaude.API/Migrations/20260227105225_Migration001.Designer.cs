@@ -12,7 +12,7 @@ using PlanosSaude.API.Data;
 namespace PlanosSaude.API.Migrations
 {
     [DbContext(typeof(PlanosSaudeDbContext))]
-    [Migration("20260227051129_Migration001")]
+    [Migration("20260227105225_Migration001")]
     partial class Migration001
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace PlanosSaude.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.13")
+                .HasAnnotation("ProductVersion", "8.0.24")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);

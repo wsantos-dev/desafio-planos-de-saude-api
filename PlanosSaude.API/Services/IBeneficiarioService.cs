@@ -12,19 +12,19 @@ namespace PlanosSaude.API.Services
         CriarBeneficiarioDto dto,
         CancellationToken cancellationToken);
 
-        Task<BeneficiarioResponseDto?> ObterPorIdAsync(
+        Task<BeneficiarioResponseDto> ObterPorIdAsync(
             Guid id,
             CancellationToken cancellationToken);
 
         Task<IReadOnlyCollection<BeneficiarioResponseDto>> ObterTodosAsync(
             CancellationToken cancellationToken);
 
-        Task<bool> AtualizarAsync(
+        Task AtualizarAsync(
             Guid id,
             AtualizarBeneficiarioDto dto,
             CancellationToken cancellationToken);
 
-        Task<bool> RemoverAsync(
+        Task RemoverAsync(
             Guid id,
             CancellationToken cancellationToken);
     }

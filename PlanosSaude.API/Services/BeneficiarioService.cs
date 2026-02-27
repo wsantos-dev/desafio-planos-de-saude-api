@@ -1,9 +1,13 @@
+using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
 using Microsoft.EntityFrameworkCore;
 using PlanosSaude.API.Data;
 using PlanosSaude.API.DTOs;
+using PlanosSaude.API.Errors.Exceptions;
+using PlanosSaude.API.Extensions;
 using PlanosSaude.API.Models;
 using PlanosSaude.API.Validators;
+using ValidationException = PlanosSaude.API.Errors.Exceptions.ValidationException;
 
 namespace PlanosSaude.API.Services
 {
@@ -16,36 +20,39 @@ namespace PlanosSaude.API.Services
             _context = context;
         }
 
-        public async Task<BeneficiarioResponseDto?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<BeneficiarioResponseDto> ObterPorIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var beneficiário = await _context.Beneficiarios
+            var beneficiario = await _context.Beneficiarios
                 .AsNoTracking()
                 .FirstOrDefaultAsync(b => b.Id == id);
 
-            return beneficiário is null ? null : MapToResponse(beneficiário);
+            if (beneficiario is null)
+                throw new NotFoundException("Beneficiário não encontrado.");
+
+            return beneficiario.ToResponseDto();
         }
 
         public async Task<IReadOnlyCollection<BeneficiarioResponseDto>> ObterTodosAsync(CancellationToken cancellationToken)
         {
             return await _context.Beneficiarios
                     .AsNoTracking()
-                    .Select(b => MapToResponse(b))
+                    .Select(b => b.ToResponseDto())
                     .ToListAsync(cancellationToken);
         }
 
         public async Task<BeneficiarioResponseDto> CriarAsync(CriarBeneficiarioDto dto, CancellationToken cancellationToken)
         {
             if (!CpfValidator.IsValid(dto.Cpf))
-                throw new ArgumentException("CPF inválido.");
+                throw new ValidationException("CPF inválido.");
 
-            if (!EmailValido(dto.Email))
-                throw new ArgumentException("Email inválido.");
+            if (!EmailValidator.EmailValido(dto.Email))
+                throw new ValidationException("Email inválido.");
 
             var cpfExiste = await _context.Beneficiarios
                 .AnyAsync(b => b.Cpf == dto.Cpf, cancellationToken);
 
             if (cpfExiste)
-                throw new InvalidOperationException("Já existe beneficiário com esse CPF.");
+                throw new BusinessException("Já existe beneficiário com esse CPF.");
 
             var beneficiario = new Beneficiario
             {
@@ -62,19 +69,19 @@ namespace PlanosSaude.API.Services
             _context.Beneficiarios.Add(beneficiario);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return MapToResponse(beneficiario);
+            return beneficiario.ToResponseDto();
 
         }
-        public async Task<bool> AtualizarAsync(Guid id, AtualizarBeneficiarioDto dto, CancellationToken cancellationToken)
+        public async Task AtualizarAsync(Guid id, AtualizarBeneficiarioDto dto, CancellationToken cancellationToken)
         {
             var beneficiario = await _context.Beneficiarios
             .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
 
             if (beneficiario is null)
-                return false;
+                throw new NotFoundException("Beneficiário não encontrado.");
 
-            if (!EmailValido(dto.Email))
-                throw new ArgumentException("Email inválido.");
+            if (!EmailValidator.EmailValido(dto.Email))
+                throw new ValidationException("Email inválido.");
 
             beneficiario.Nome = dto.Nome;
             beneficiario.Email = dto.Email;
@@ -83,50 +90,18 @@ namespace PlanosSaude.API.Services
             beneficiario.DataAtualizacao = DateTime.UtcNow;
 
             await _context.SaveChangesAsync(cancellationToken);
-
-            return true;
         }
 
-        public async Task<bool> RemoverAsync(Guid id, CancellationToken cancellationToken)
+        public async Task RemoverAsync(Guid id, CancellationToken cancellationToken)
         {
             var beneficiario = await _context.Beneficiarios
            .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
 
             if (beneficiario is null)
-                return false;
+                throw new NotFoundException("Beneficiário não encontrado.");
 
             _context.Beneficiarios.Remove(beneficiario);
             await _context.SaveChangesAsync(cancellationToken);
-
-            return true;
-        }
-
-        private static BeneficiarioResponseDto MapToResponse(Beneficiario b)
-        {
-            return new BeneficiarioResponseDto(
-                b.Id,
-                b.Nome,
-                b.Cpf,
-                b.DataNascimento,
-                b.Email,
-                b.Telefone,
-                b.IsAtivo
-            );
-        }
-
-
-
-        public static bool EmailValido(string email)
-        {
-            try
-            {
-                var addr = new MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
         }
     }
 }
