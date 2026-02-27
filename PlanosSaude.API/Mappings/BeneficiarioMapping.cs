@@ -1,9 +1,9 @@
 using PlanosSaude.API.DTOs;
 using PlanosSaude.API.Models;
 
-namespace PlanosSaude.API.Extensions
+namespace PlanosSaude.API.Mappings
 {
-    public static class MappingExtensions
+    public static class BeneficiarioMapping
     {
         public static BeneficiarioResponseDto ToResponseDto(this Beneficiario b)
         {

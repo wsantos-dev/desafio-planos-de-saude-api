@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PlanosSaude.API.Data;
 using PlanosSaude.API.DTOs;
 using PlanosSaude.API.Errors.Exceptions;
-using PlanosSaude.API.Extensions;
+using PlanosSaude.API.Mappings;
 using PlanosSaude.API.Models;
 using PlanosSaude.API.Validators;
 using ValidationException = PlanosSaude.API.Errors.Exceptions.ValidationException;
