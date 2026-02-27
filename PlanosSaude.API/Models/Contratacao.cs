@@ -44,7 +44,7 @@ namespace PlanosSaude.API.Models
             DataFim = DateTime.UtcNow;
         }
 
-        private int CalcularIdade(DateOnly dataNascimento)
+        public static int CalcularIdade(DateOnly dataNascimento)
         {
             var hoje = DateOnly.FromDateTime(DateTime.UtcNow);
 

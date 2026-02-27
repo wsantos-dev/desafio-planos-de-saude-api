@@ -48,9 +48,11 @@ public class PlanoService : IPlanoService
             throw new NotFoundException("Plano não encontrado.");
 
 
-        plano = new Plano(dto.Nome, dto.Codigo, dto.CustoMensal, dto.Cobertura) { Id = id };
+        plano.Nome = dto.Nome;
+        plano.Codigo = dto.Codigo;
+        plano.CustoMensal = dto.CustoMensal;
+        plano.Cobertura = dto.Cobertura;
 
-        _context.Planos.Update(plano);
         await _context.SaveChangesAsync(cancellationToken);
     }
 

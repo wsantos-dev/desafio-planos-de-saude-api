@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using PlanosSaude.API.Data;
 using PlanosSaude.API.DTOs.Beneficiarios;
 using PlanosSaude.API.Errors.Exceptions;
-using PlanosSaude.API.Mappings;
 using PlanosSaude.API.Models;
 
 namespace PlanosSaude.API.Services
@@ -56,11 +55,21 @@ namespace PlanosSaude.API.Services
             if (possuiAtiva)
                 throw new BusinessException("Beneficiário já possui contratação ativa.");
 
+            if (dataInicio.Date < DateTime.UtcNow.Date)
+                throw new BusinessException("Data de início não pode ser no passado.");
+
+
+            var idade = Contratacao.CalcularIdade(beneficiario.DataNascimento);
+
+            if (idade < 18)
+                throw new BusinessException("Beneficiário deve ter pelo menos 18 anos.");
+
             var contratacao = new Contratacao(
                 beneficiarioId,
                 planoId,
                 dataInicio,
                 beneficiario.DataNascimento);
+
 
             _context.Contratacoes.Add(contratacao);
             await _context.SaveChangesAsync(cancellationToken);

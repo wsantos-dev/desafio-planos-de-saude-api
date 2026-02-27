@@ -25,7 +25,6 @@ namespace PlanosSaude.API.Models
             Codigo = codigo;
             CustoMensal = custoMensal;
             Cobertura = cobertura;
-            Id = Guid.NewGuid();
         }
 
     }

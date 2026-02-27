@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using PlanosSaude.API.Data;
 using PlanosSaude.API.Middlewares;
+using PlanosSaude.API.Models;
 using PlanosSaude.API.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,8 @@ builder.Services.AddDbContext<PlanosSaudeDbContext>(options =>
 
 // DI
 builder.Services.AddScoped<IBeneficiarioService, BeneficiarioService>();
+builder.Services.AddScoped<IPlanoService, PlanoService>();
+builder.Services.AddScoped<IContratacaoService, ContratacaoService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
