@@ -10,7 +10,8 @@ namespace PlanosSaude.API.Services
             DateTimeOffset dataInicio,
             CancellationToken cancellationToken);
 
-        Task CancelarAsync(Guid contratacaoId, CancellationToken cancellationToken);
+        Task CancelarAsync(Guid contratacaoId,
+            CancellationToken cancellationToken);
 
         Task<ContratacaoResponseDto> ObterPorIdAsync(
             Guid id,

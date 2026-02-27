@@ -11,7 +11,7 @@ builder.Services.AddDbContext<PlanosSaudeDbContext>(options =>
 // DI
 builder.Services.AddScoped<IBeneficiarioService, BeneficiarioService>();
 
-
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -21,8 +21,6 @@ var app = builder.Build();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
-
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -31,5 +29,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapControllers();
 app.Run();
 
