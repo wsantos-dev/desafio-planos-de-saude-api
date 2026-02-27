@@ -6,6 +6,7 @@ public record CriarBeneficiarioDto(
     string Cpf,
     DateOnly DataNascimento,
     string Email,
-    string Telefone
+    string Telefone,
+    bool Ativo
 );
 

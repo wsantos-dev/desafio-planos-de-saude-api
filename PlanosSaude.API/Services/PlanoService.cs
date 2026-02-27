@@ -18,8 +18,7 @@ public class PlanoService : IPlanoService
 
     public async Task<PlanoResponseDto> CriarAsync(PlanoRequestDto dto, CancellationToken cancellationToken)
     {
-        var cobertura = Enum.Parse<Cobertura>(dto.Cobertura);
-        var plano = new Plano(dto.Nome, dto.Codigo, dto.CustoMensal, cobertura);
+        var plano = new Plano(dto.Nome, dto.Codigo, dto.CustoMensal, dto.Cobertura);
         _context.Planos.Add(plano);
         await _context.SaveChangesAsync(cancellationToken);
         return plano.ToResponseDto();
@@ -48,9 +47,8 @@ public class PlanoService : IPlanoService
         if (plano is null)
             throw new NotFoundException("Plano não encontrado.");
 
-        // Atualiza propriedades
-        var cobertura = Enum.Parse<Cobertura>(dto.Cobertura);
-        plano = new Plano(dto.Nome, dto.Codigo, dto.CustoMensal, cobertura) { Id = id };
+
+        plano = new Plano(dto.Nome, dto.Codigo, dto.CustoMensal, dto.Cobertura) { Id = id };
 
         _context.Planos.Update(plano);
         await _context.SaveChangesAsync(cancellationToken);
