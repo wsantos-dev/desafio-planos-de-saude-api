@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Net.Mail;
 using Microsoft.EntityFrameworkCore;
 using PlanosSaude.API.Data;
 using PlanosSaude.API.DTOs;
@@ -52,7 +50,7 @@ namespace PlanosSaude.API.Services
                 .AnyAsync(b => b.Cpf == dto.Cpf, cancellationToken);
 
             if (cpfExiste)
-                throw new BusinessException("Já existe beneficiário com esse CPF.");
+                throw new ValidationException("Já existe beneficiário com esse CPF.");
 
             var beneficiario = new Beneficiario
             {

@@ -25,6 +25,7 @@ namespace PlanosSaude.API.Services
 
             // Regra de negócio está dentro da entidade
             contratacao.Cancelar();
+            _context.Update(contratacao);
 
             await _context.SaveChangesAsync(cancellationToken);
         }
