@@ -36,6 +36,7 @@ namespace PlanosSaude.API.Services
             DateTimeOffset dataInicio,
             CancellationToken cancellationToken)
         {
+
             var beneficiario = await _context.Beneficiarios
                 .AsNoTracking()
                 .FirstOrDefaultAsync(b => b.Id == beneficiarioId, cancellationToken);

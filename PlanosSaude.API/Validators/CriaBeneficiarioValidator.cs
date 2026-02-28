@@ -49,7 +49,7 @@ public class CriaBeneficiarioValidator : AbstractValidator<CriarBeneficiarioDto>
         var soma = 0;
 
         for (int i = 0; i < 9; i++)
-            soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
+            soma += (tempCpf[i] - '0') * multiplicador1[i];
 
         var resto = soma % 11;
         resto = resto < 2 ? 0 : 11 - resto;
@@ -71,10 +71,11 @@ public class CriaBeneficiarioValidator : AbstractValidator<CriarBeneficiarioDto>
 
     private bool Tem18Anos(DateOnly dataNascimento)
     {
-        var hoje = DateOnly.FromDateTime(DateTime.Now);
+        var hoje = DateOnly.FromDateTime(DateTime.UtcNow);
         var idade = hoje.Year - dataNascimento.Year;
 
-        if (dataNascimento > hoje.AddYears(-idade)) idade--;
+        if (dataNascimento > hoje.AddYears(-idade))
+            idade--;
 
         return idade >= 18;
     }
