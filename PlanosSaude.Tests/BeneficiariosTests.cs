@@ -6,11 +6,12 @@ using PlanosSaude.API.DTOs;
 
 public class BeneficiarioServiceTests
 {
-    private PlanosSaudeDbContext CriarContext()
+    private static PlanosSaudeDbContext CriarContext()
     {
         var options = new DbContextOptionsBuilder<PlanosSaudeDbContext>()
-            .UseNpgsql("Host=localhost;Port=5432;Database=planos_saude_test;Username=desenvolvedor;Password=DotNet@2026")
-            .Options;
+        .UseInMemoryDatabase(Guid.NewGuid().ToString())
+        .Options;
+
         return new PlanosSaudeDbContext(options);
     }
 
@@ -22,7 +23,7 @@ public class BeneficiarioServiceTests
 
         var dto = new CriarBeneficiarioDto(
             "João Silva",
-            "123.456.789-09",
+            "12345678909",
             new DateOnly(2000, 1, 1),
             "joao@email.com",
             "+5581912345678",
@@ -46,11 +47,11 @@ public class BeneficiarioServiceTests
             "111.111.111-11",
             new DateOnly(2000, 1, 1),
             "maria@email.com",
-            "+5581912345678",
+            "5581912345678",
             true
         );
 
-        await Assert.ThrowsAsync<BusinessException>(() => service.CriarAsync(dto, default));
+        await Assert.ThrowsAsync<ValidationException>(() => service.CriarAsync(dto, default));
     }
 
     [Fact]
@@ -64,11 +65,11 @@ public class BeneficiarioServiceTests
             "123.456.789-09",
             new DateOnly(2000, 1, 1),
             "emailinvalido",
-            "+5581912345678",
+            "5581912345678",
             true
         );
 
-        await Assert.ThrowsAsync<BusinessException>(() => service.CriarAsync(dto, default));
+        await Assert.ThrowsAsync<ValidationException>(() => service.CriarAsync(dto, default));
     }
 
     [Fact]

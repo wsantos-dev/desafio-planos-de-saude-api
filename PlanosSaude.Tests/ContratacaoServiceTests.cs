@@ -12,11 +12,12 @@ using PlanosSaude.API.Errors.Exceptions;
 
 public class ContratacaoServiceTests
 {
-    private PlanosSaudeDbContext CriarContext()
+    private static PlanosSaudeDbContext CriarContext()
     {
         var options = new DbContextOptionsBuilder<PlanosSaudeDbContext>()
-            .UseNpgsql("Host=localhost;Port=5432;Database=planos_saude_test;Username=desenvolvedor;Password=DotNet@2026")
-            .Options;
+        .UseInMemoryDatabase(Guid.NewGuid().ToString())
+        .Options;
+
         return new PlanosSaudeDbContext(options);
     }
 
@@ -30,8 +31,8 @@ public class ContratacaoServiceTests
 
         var beneficiario = await serviceBenef.CriarAsync(
             new CriarBeneficiarioDto(
-                "João Silva", "123.456.789-09", new DateOnly(2000, 1, 1),
-                "joao@email.com", "+5581912345678", true
+                "João Silva", "12345678909", new DateOnly(2000, 1, 1),
+                "joao@email.com", "5581912345678", true
             ), default);
 
         var plano = await servicePlano.CriarAsync(
@@ -54,8 +55,8 @@ public class ContratacaoServiceTests
 
         var beneficiario = await serviceBenef.CriarAsync(
             new CriarBeneficiarioDto(
-                "Lucas Junior", "987.654.321-00", DateOnly.FromDateTime(DateTime.UtcNow.AddYears(-16)),
-                "lucas@email.com", "+5581912345678", true
+                "Lucas Junior", "98765432100", DateOnly.FromDateTime(DateTime.UtcNow.AddYears(-16)),
+                "lucas@email.com", "5581912345678", true
             ), default);
 
         var plano = await servicePlano.CriarAsync(
@@ -75,8 +76,8 @@ public class ContratacaoServiceTests
 
         var beneficiario = await serviceBenef.CriarAsync(
             new CriarBeneficiarioDto(
-                "João Silva", "123.456.789-09", new DateOnly(2000, 1, 1),
-                "joao@email.com", "+5581912345678", true
+                "João Silva", "12345678909", new DateOnly(2000, 1, 1),
+                "joao@email.com", "5581912345678", true
             ), default);
 
         var plano = await servicePlano.CriarAsync(
@@ -96,8 +97,8 @@ public class ContratacaoServiceTests
 
         var beneficiario = await serviceBenef.CriarAsync(
             new CriarBeneficiarioDto(
-                "João Silva", "123.456.789-09", new DateOnly(2000, 1, 1),
-                "joao@email.com", "+5581912345678", true
+                "João Silva", "12345678909", new DateOnly(2000, 1, 1),
+                "joao@email.com", "5581912345678", true
             ), default);
 
         var plano = await servicePlano.CriarAsync(
@@ -123,7 +124,7 @@ public class ContratacaoServiceTests
 
         var beneficiario = await serviceBenef.CriarAsync(
             new CriarBeneficiarioDto(
-                "João Silva", "123.456.789-09", new DateOnly(2000, 1, 1),
+                "João Silva", "12345678909", new DateOnly(2000, 1, 1),
                 "joao@email.com", "+5581912345678", true
             ), default);
 

@@ -9,8 +9,9 @@ public class PlanoServiceTests
     private static PlanosSaudeDbContext CriarContext()
     {
         var options = new DbContextOptionsBuilder<PlanosSaudeDbContext>()
-            .UseNpgsql("Host=localhost;Port=5432;Database=planos_saude_test;Username=desenvolvedor;Password=DotNet@2026")
-            .Options;
+        .UseInMemoryDatabase(Guid.NewGuid().ToString())
+        .Options;
+
         return new PlanosSaudeDbContext(options);
     }
 
