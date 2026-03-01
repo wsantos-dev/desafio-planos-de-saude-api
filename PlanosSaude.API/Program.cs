@@ -39,5 +39,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<PlanosSaudeDbContext>();
+    dbContext.Database.Migrate();
+}
+
+
 app.Run();
 

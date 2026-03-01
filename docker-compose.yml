@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: planos_saude_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: desenvolvedor
+      POSTGRES_PASSWORD: DotNet@2026
+      POSTGRES_DB: planos_saude
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - planos_saude_network
+
+  api:
+    build:
+      context: .
+      dockerfile: PlanosSaude.API/Dockerfile
+    container_name: planos_saude_api
+    depends_on:
+      - postgres
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=planos_saude;Username=desenvolvedor;Password=DotNet@2026
+    ports:
+      - "5229:8080"
+    networks:
+      - planos_saude_network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+
+
+networks:
+  planos_saude_network:
+    driver: bridge
