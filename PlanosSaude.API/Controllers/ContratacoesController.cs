@@ -15,19 +15,13 @@ namespace PlanosSaude.API.Controllers
             _service = service;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Contratar(
-            [FromBody] ContratarRequestDto request,
-            CancellationToken cancellationToken)
+        [HttpGet]
+        public async Task<IActionResult> Listar(CancellationToken cancellationToken)
         {
-            var response = await _service.ContratarAsync(
-                request.BeneficiarioId,
-                request.PlanoId,
-                request.DataInicio,
-                cancellationToken);
-
-            return CreatedAtAction(nameof(ObterPorId), new { id = response.Id }, response);
+            var response = await _service.ListarTodosAsync(cancellationToken);
+            return Ok(response);
         }
+
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> ObterPorId(
@@ -36,6 +30,20 @@ namespace PlanosSaude.API.Controllers
         {
             var contratacao = await _service.ObterPorIdAsync(id, cancellationToken);
             return Ok(contratacao);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Contratar(
+         [FromBody] ContratarRequestDto request,
+         CancellationToken cancellationToken)
+        {
+            var response = await _service.ContratarAsync(
+                request.BeneficiarioId,
+                request.PlanoId,
+                request.DataInicio,
+                cancellationToken);
+
+            return CreatedAtAction(nameof(ObterPorId), new { id = response.Id }, response);
         }
 
         [HttpPatch("{id:guid}/cancelar")]

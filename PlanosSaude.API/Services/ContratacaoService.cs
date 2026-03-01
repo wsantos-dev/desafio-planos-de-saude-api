@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PlanosSaude.API.Data;
 using PlanosSaude.API.DTOs.Beneficiarios;
 using PlanosSaude.API.Errors.Exceptions;
+using PlanosSaude.API.Mappings;
 using PlanosSaude.API.Models;
 
 namespace PlanosSaude.API.Services
@@ -13,6 +14,24 @@ namespace PlanosSaude.API.Services
         public ContratacaoService(PlanosSaudeDbContext contex)
         {
             _context = contex;
+        }
+
+
+        public async Task<IReadOnlyCollection<ContratacaoResponseDto>> ListarTodosAsync(CancellationToken cancellationToken)
+        {
+            return await _context.Contratacoes
+               .AsNoTracking()
+               .Select(c => new ContratacaoResponseDto(
+                    c.Id,
+                    c.BeneficiarioId,
+                    c.Beneficiario!.Nome!,
+                    c.PlanoId,
+                    c.Plano!.Nome!,
+                    c.DataInicio,
+                    c.DataFim,
+                    c.DataFim == null
+                ))
+               .ToListAsync(cancellationToken);
         }
 
         public async Task CancelarAsync(Guid contratacaoId, CancellationToken cancellationToken)

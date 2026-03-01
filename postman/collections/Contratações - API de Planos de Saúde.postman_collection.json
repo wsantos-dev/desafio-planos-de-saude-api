@@ -1,0 +1,85 @@
+{
+  "info": {
+    "_postman_id": "f6e5d2d6-9dc9-46df-83dc-ba1796ea9858",
+    "name": "Contratações - API de Planos de Saúde",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "api/contratacoes/id",
+      "id": "73310437-469b-4686-94c0-7b5b19ad5111",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}api/contratacoes/{{id}}",
+          "host": [
+            "{{base_url}}api"
+          ],
+          "path": [
+            "contratacoes",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "api/contratacoes",
+      "id": "a4f1cbb1-383d-4d02-9b1f-dc0d4dac0692",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}api/contratacoes",
+          "host": [
+            "{{base_url}}api"
+          ],
+          "path": [
+            "contratacoes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "id": "caadde80-c976-4f57-b4c3-01e5cad4d01d",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}api/contratacoes/{{id}}/cancelar",
+          "host": [
+            "{{base_url}}api"
+          ],
+          "path": [
+            "contratacoes",
+            "{{id}}",
+            "cancelar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "api/contratacoes",
+      "id": "687bc0a5-b419-4ba1-a124-b2358f17b93e",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}api/contratacoes/",
+          "host": [
+            "{{base_url}}api"
+          ],
+          "path": [
+            "contratacoes",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
