@@ -1,12 +1,7 @@
-using Xunit;
 using PlanosSaude.API.Services;
-using PlanosSaude.API.Models;
 using PlanosSaude.API.Data;
-using PlanosSaude.API.DTOs.Beneficiarios;
 using PlanosSaude.API.DTOs;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading.Tasks;
 using PlanosSaude.API.DTOs.Planos;
 using PlanosSaude.API.Errors.Exceptions;
 

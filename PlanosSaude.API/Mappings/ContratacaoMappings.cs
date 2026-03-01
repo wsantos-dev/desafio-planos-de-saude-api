@@ -1,4 +1,3 @@
-using PlanosSaude.API.DTOs;
 using PlanosSaude.API.DTOs.Beneficiarios;
 using PlanosSaude.API.Models;
 
